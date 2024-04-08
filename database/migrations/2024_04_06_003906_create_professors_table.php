@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignIdFor(\App\Models\University::class,  'university_id');
             $table->foreignIdFor(\App\Models\Department::class,  'department_id');
-
+            $table->string('uid')->unique();
             $table->timestamps();
         });
     }

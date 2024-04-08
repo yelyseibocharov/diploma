@@ -20,6 +20,6 @@ class University extends Model
 
     public function institute()
     {
-        return $this->belongsTo(Institute::class);
+        return $this->hasMany(Institute::class);
     }
 }

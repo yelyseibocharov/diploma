@@ -15,11 +15,11 @@ class Institute extends Model
 
     public function university()
     {
-        return $this->hasOne(University::class);
+        return $this->belongsTo(University::class);
     }
 
-    public function department()
+    public function departments()
     {
-        return $this->belongsTo(Department::class);
+        return $this->hasMany(Department::class);
     }
 }

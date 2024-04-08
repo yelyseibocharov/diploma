@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institutes', function (Blueprint $table) {
+        Schema::create('password_resets', function (Blueprint $table) {
             $table->id();
-            $table->string('full_title');
-            $table->string('title');
-            $table->foreignIdFor(\App\Models\University::class,  'university_id');
-            $table->timestamps();
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+            $table->integer('init_user')->nullable(false);
+            $table->string('Operation');
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institutes');
+        Schema::dropIfExists('password_resets');
     }
 };
