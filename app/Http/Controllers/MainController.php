@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Institute;
 use App\Models\Professor;
 use Illuminate\Contracts\View\View;
 
@@ -59,6 +60,8 @@ class MainController extends Controller
             'first_name' => $this->request->get('first_name'),
             'last_name' => $this->request->get('last_name'),
             'parent_name' => $this->request->get('parent_name'),
+            'date_of_birth' => '2002-05-07',
+            'phone_number' => '+380 99-661-07-66',
             'email' => $this->request->get('email'),
             'password' => Hash::make($this->request->get('password')),
             'permission' => '0',
@@ -78,5 +81,20 @@ class MainController extends Controller
         $this->request->session()->invalidate();
         $this->request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    public function getDepartments($id)
+    {
+        $institute = Institute::findOrFail($id);
+        $departments = $institute->departments()->get();
+
+        return response()->json($departments);
+    }
+
+    public function getInstitutes($id)
+    {
+        $institute = Institute::where('university_id', $id)->get();
+
+        return response()->json($institute);
     }
 }

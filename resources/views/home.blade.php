@@ -239,7 +239,11 @@
                     </li>
                 </ul>
                 <form class="d-flex">
+                    @if(Auth::user())
+                        <a href="{{ route('dashboard') }}" class="btn btn-outline-success" type="submit">Log in</a>
+                    @else
                     <a href="{{ route('auth.login') }}" class="btn btn-outline-success" type="submit">Log in</a>
+                    @endif
                 </form>
             </div>
         </div>

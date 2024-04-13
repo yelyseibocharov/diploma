@@ -51,13 +51,15 @@ class Register extends Controller
 
         $databaseData = $this->generateDatabaseData($this->request->get('email'), $token, $this->request->get('init_user'), 'register');
 
-        //try {
+        try {
             $this->databaseTokenInsert($databaseData);
 
             $professor = Professor::create([
                 'first_name' => $this->request->get('first_name'),
                 'last_name' => $this->request->get('last_name'),
                 'parent_name' => $this->request->get('parent_name'),
+                'date_of_birth' => $this->request->get('date_of_birth'),
+                'phone_number' => $this->request->get('phone_number'),
                 'email' => $this->request->get('email'),
                 'password' => $token,
                 'permission' => $this->request->get('permission'),
@@ -93,12 +95,12 @@ class Register extends Controller
                 'valid_until' => Carbon::today(),
                 'init_user' => $this->request->get('init_user')
             ]);
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $response ?? [
                 'status'  => 'error',
                 'message' => __('Зверніться до служби підтримки'),
             ];
-        }*/
+        }
 
         return to_route('dashboard');
     }

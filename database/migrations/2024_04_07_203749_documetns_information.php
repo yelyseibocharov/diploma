@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('documents_information', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('professor_id');
+            $table->foreignIdFor(\App\Models\Professor::class, 'professor_id');
             $table->foreignId('student_id');
             $table->foreignId('personnel_id');
             $table->string('type');
-            $table->string('series');
             $table->string('number');
+            $table->string('series');
             $table->string('created');
             $table->date('created_from');
             $table->date('valid_until');

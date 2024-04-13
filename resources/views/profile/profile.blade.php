@@ -73,7 +73,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form class="file-upload">
+                <form class="file-upload" method="POST" action="/profile/edit/professor/{{$data->uid}}">
+                    @csrf
                     <div class="row mb-5 gx-5">
                         <div class="col-xxl-8 mb-5 mb-xxl-0">
                             <div class="bg-secondary-soft px-4 py-5 rounded">
@@ -99,35 +100,39 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Дата народження</label>
-                                        <input type="date" class="form-control" placeholder="date_of_birthday"
+                                        <input type="date" class="form-control"
+                                               placeholder="date_of_birthday"
+                                               name="date_of_birth"
+                                               value="{{ $data->date_of_birth }}"
                                                aria-label="Дата народження" {{ empty($permission) ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Email *</label>
-                                        <input type="email" name="email" class="form-control"
+                                        <input type="email" name="email" class="form-control" name="email"
                                                placeholder="{{ $data->email }}" id="inputEmail4"
                                                value="{{ $data->email }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Номер телефону*</label>
                                         <input type="text" class="form-control" placeholder="+38 (099) 661 07 66"
-                                               aria-label="Телефон" value="+38 (099) 661 07 66">
+                                               aria-label="Телефон" value="{{ $data->phone_number }}" name="phone_number">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Посада*</label>
                                         <input type="text" class="form-control" placeholder="{{ $data->function }}"
-                                               aria-label="Посада" value="{{ $data->function }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
+                                               aria-label="Посада" name="function"
+                                               value="{{ $data->function }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Доступ*</label>
-                                        <input type="text" class="form-control" placeholder="{{ $data->permission }}"
-                                                value="{{ $data->permission }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
+                                        <input type="text" class="form-control" placeholder="{{ $data->permission }}" name="permission"
+                                               value="{{ $data->permission }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Назва ВНЗ*</label>
                                         <input type="text" class="form-control" placeholder="{{ $university_name }}"
                                                aria-label="Назва ВНЗ"
-                                               value="{{ $university_name }}" {{ empty($permission) ? 'readonly disabled' : '' }}>
+                                               value="{{ $university_name }}" readonly disabled>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Інститут/Факультет</label>
@@ -135,7 +140,8 @@
                                                 id="institute_id" {{ empty($permission) ? 'disabled' : '' }}>
                                             <option value="{{ $data->department->id }}">{{ $data->department }}</option>
                                             @foreach ($institutes as $institute)
-                                                <option value="{{ $institute->id }}">{{ $institute->full_title }}</option>
+                                                <option
+                                                    value="{{ $institute->id }}">{{ $institute->full_title }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -189,9 +195,14 @@
                                     </div>
                                     <div class="gap-3 justify-content-md-end text-center">
                                         @if(!empty($permission))
-                                            <button type="button" class="btn btn-danger btn-lg">Архівувати</button>
+                                            @if($data->status_code === 0)
+                                                <button class="btn btn-success rounded-pill px-3" type="button">Активувати</button>
+                                            @else
+                                                <button type="button" class="btn btn-danger btn-lg">Архівувати</button>
+
+                                                <button type="submit" class="btn btn-primary btn-lg">Оновити</button>
+                                            @endif
                                         @endif
-                                        <button type="button" class="btn btn-primary btn-lg">Оновити</button>
                                     </div>
                                 </div>
                             </div>
@@ -210,6 +221,7 @@
                                                 <input type="text" class="form-control"
                                                        placeholder="{{ $item->series ? 'NULL' : $item->series }}"
                                                        value="{{ $item->series ? 'NULL' : $item->series }}"
+                                                       name="passport_series"
                                                     {{ empty($permission) ? 'readonly disabled' : '' }}
                                                 >
                                             </div>
@@ -219,6 +231,7 @@
                                                 <input type="text" class="form-control"
                                                        placeholder="{{ $item->number }}"
                                                        value="{{ $item->number }}"
+                                                       name="passport_number"
                                                     {{ empty($permission) ? 'readonly disabled' : '' }}
                                                 >
                                             </div>
@@ -228,6 +241,7 @@
                                                 <input type="text" class="form-control"
                                                        placeholder="{{ $item->created }}"
                                                        value="{{ $item->created }}"
+                                                       name="passport_created"
                                                     {{ empty($permission) ? 'readonly disabled' : '' }}
                                                 >
                                             </div>
@@ -239,6 +253,7 @@
                                                 <input type="text" class="form-control"
                                                        placeholder="{{ $item->number }}"
                                                        value="{{ $item->number }}"
+                                                       name="tax_number"
                                                     {{ empty($permission) ? 'readonly disabled' : '' }}
                                                 >
                                             </div>
@@ -251,18 +266,25 @@
                             <div class="bg-secondary-soft px-4 py-5 rounded">
                                 <div class="row g-3">
                                     <h4 class="mb-4 mt-0">Облікові налаштування</h4>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Старий пароль</label>
-                                        <input type="password" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Новий пароль</label>
-                                        <input type="password" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Повторіть пароль</label>
-                                        <input type="password" class="form-control">
-                                    </div>
+                                    @if($data->uid === auth()->user()->uid)
+                                        <div class="col-md-6">
+                                            <label class="form-label">Старий пароль</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Новий пароль</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Повторіть пароль</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                    @else
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary rounded-pill px-3" type="button">Скинути пароль
+                                            </button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

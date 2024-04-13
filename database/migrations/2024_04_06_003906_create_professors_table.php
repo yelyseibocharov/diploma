@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('professors', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
             $table->string('last_name');
+            $table->string('first_name');
             $table->string('parent_name')->nullable();
+            $table->date('date_of_birth');
+            $table->string('phone_number');
             $table->string('permission');
             $table->string('function')->nullable();
             $table->integer('status_code');

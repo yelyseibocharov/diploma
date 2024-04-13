@@ -97,13 +97,14 @@
                                     <div class="col-md-6">
                                         <label class="form-label">По-Батькові</label>
                                         <input type="text" class="form-control" name="parent_name"
-                                               placeholder="" aria-label="Ім'я"
+                                               placeholder="Григорович" aria-label="Ім'я"
                                         >
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Дата народження</label>
                                         <input type="date" class="form-control" placeholder="date_of_birthday"
                                                aria-label="Дата народження"
+                                               name="date_of_birth"
                                                required
                                         >
                                     </div>
@@ -118,11 +119,12 @@
                                         <label class="form-label">Номер телефону</label>
                                         <input type="text" class="form-control" placeholder="+38 (099) 661 07 66"
                                                aria-label="Телефон" value="+38 (099) 661 07 66"
+                                               name="phone_number"
                                         >
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Посада*</label>
-                                        <input type="text" class="form-control" placeholder="Доцент"
+                                        <input type="text" name="function" class="form-control" placeholder="Доцент"
                                                aria-label="Посада"
                                                required
                                         >
